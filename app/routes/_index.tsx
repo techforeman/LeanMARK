@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { useActionData, Form, useNavigation } from "@remix-run/react";
 import { Resend } from "resend";
-import Flag from 'react-flagkit';
 
 export const meta = () => {
   return [
@@ -57,8 +56,7 @@ export default function Index() {
   const formRef = useRef<HTMLFormElement>(null);
   const [activeSection, setActiveSection] = useState("hero");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [language, setLanguage] = useState('EN');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 
   // Smooth scroll function
   const scrollToSection = (sectionId: string) => {
@@ -251,10 +249,7 @@ export default function Index() {
     setIsMobileMenuOpen((prev) => !prev);
   };
 
-  const handleLanguageChange = (lang: string) => {
-    setLanguage(lang);
-    // Implement text replacement logic here
-  };
+ 
 
   return (
     <div className="bg-gray-900 text-white min-h-screen">
@@ -296,24 +291,7 @@ export default function Index() {
                 {section.charAt(0).toUpperCase() + section.slice(1)}
               </motion.a>
             ))}
-            <div className="relative">
-              <button className="flex items-center space-x-2 text-white" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                <Flag country={language === 'EN' ? 'GB' : 'PL'} size={24} />
-                <span>{language}</span>
-              </button>
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-32 bg-gray-800 rounded-md shadow-lg">
-                  <button className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-white hover:bg-gray-700" onClick={() => handleLanguageChange('EN')}>
-                    <Flag country="GB" size={24} />
-                    <span>EN</span>
-                  </button>
-                  <button className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-white hover:bg-gray-700" onClick={() => handleLanguageChange('PL')}>
-                    <Flag country="PL" size={24} />
-                    <span>PL</span>
-                  </button>
-                </div>
-              )}
-            </div>
+        
           </div>
           <div className="md:hidden">
             <button className="text-white" onClick={toggleMobileMenu}>
