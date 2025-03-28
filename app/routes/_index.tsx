@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { useActionData, Form, useNavigation } from "@remix-run/react";
 import { Resend } from "resend";
+import Flag from 'react-flagkit';
 
 export const meta = () => {
   return [
@@ -55,6 +56,9 @@ export default function Index() {
   
   const formRef = useRef<HTMLFormElement>(null);
   const [activeSection, setActiveSection] = useState("hero");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [language, setLanguage] = useState('EN');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Smooth scroll function
   const scrollToSection = (sectionId: string) => {
@@ -243,6 +247,15 @@ export default function Index() {
     },
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen((prev) => !prev);
+  };
+
+  const handleLanguageChange = (lang: string) => {
+    setLanguage(lang);
+    // Implement text replacement logic here
+  };
+
   return (
     <div className="bg-gray-900 text-white min-h-screen">
       {/* Navbar */}
@@ -265,14 +278,14 @@ export default function Index() {
               }}
             />
           </motion.div>
-          <div className="hidden md:flex space-x-8">
-            {["services", "about", "contact"].map((section) => (
+          <div className="hidden md:flex space-x-8 items-center">
+            {['services', 'about', 'contact'].map((section) => (
               <motion.a
                 key={section}
                 href={`#${section}`}
                 onClick={(e) => handleNavClick(e, section)}
                 className={`hover:text-purple-400 transition-colors ${
-                  activeSection === section ? "text-purple-400" : "text-white"
+                  activeSection === section ? 'text-purple-400' : 'text-white'
                 }`}
                 variants={navItemVariants}
                 initial="hidden"
@@ -283,9 +296,27 @@ export default function Index() {
                 {section.charAt(0).toUpperCase() + section.slice(1)}
               </motion.a>
             ))}
+            <div className="relative">
+              <button className="flex items-center space-x-2 text-white" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                <Flag country={language === 'EN' ? 'GB' : 'PL'} size={24} />
+                <span>{language}</span>
+              </button>
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-32 bg-gray-800 rounded-md shadow-lg">
+                  <button className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-white hover:bg-gray-700" onClick={() => handleLanguageChange('EN')}>
+                    <Flag country="GB" size={24} />
+                    <span>EN</span>
+                  </button>
+                  <button className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-white hover:bg-gray-700" onClick={() => handleLanguageChange('PL')}>
+                    <Flag country="PL" size={24} />
+                    <span>PL</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
           <div className="md:hidden">
-            <button className="text-white">
+            <button className="text-white" onClick={toggleMobileMenu}>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
@@ -293,6 +324,26 @@ export default function Index() {
           </div>
         </div>
       </nav>
+
+      {isMobileMenuOpen && (
+        <div className="fixed top-16 left-0 w-full bg-gray-900/80 backdrop-blur-md z-40 border-b border-gray-800 mt-4">
+          <div className="flex flex-col space-y-4 px-6 py-4">
+            {["services", "about", "contact"].map((section) => (
+              <a
+                key={section}
+                href={`#${section}`}
+                onClick={(e) => {
+                  handleNavClick(e, section);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="text-white hover:text-purple-400 transition-colors"
+              >
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Enhanced Hero Section */}
       <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
@@ -747,7 +798,7 @@ export default function Index() {
                   WebkitBackdropFilter: 'blur(8px)',
                 }}
               />
-              <p className="text-gray-400">Professional Programming Services</p>
+              {/* <p className="text-gray-400">Professional Programming Services</p> */}
             </motion.div>
             
             <div className="flex space-x-6">
@@ -764,31 +815,34 @@ export default function Index() {
                   </svg>
                 </motion.a>
               ))}
+              <motion.a
+                href="mailto:robert.janczak@leanmark.com"
+                className="text-gray-400 hover:text-purple-400 transition-colors"
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2 3h20c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2H2c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2zm0 2v.01L12 13 22 5.01V5H2zm0 14h20V7l-10 7L2 7v12z" />
+                </svg>
+              </motion.a>
+              <motion.a
+                href="https://www.linkedin.com/in/robert-janczak-b233aa7a/"
+                target="_blank"
+                className="text-gray-400 hover:text-purple-400 transition-colors"
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.25c-.97 0-1.75-.78-1.75-1.75s.78-1.75 1.75-1.75 1.75.78 1.75 1.75-.78 1.75-1.75 1.75zm13.5 11.25h-3v-5.5c0-1.1-.9-2-2-2s-2 .9-2 2v5.5h-3v-10h3v1.5c.9-1.35 2.5-2.25 4.25-2.25 2.48 0 4.5 2.02 4.5 4.5v6.25z" />
+                </svg>
+              </motion.a>
             </div>
           </div>
           
-          <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col justify-center items-center">
             <p className="text-gray-400 text-sm">
               © {new Date().getFullYear()} LeanMARK. All rights reserved.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <motion.a
-                href="/privacy"
-                className="text-gray-400 hover:text-purple-400 transition-colors text-sm"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                Privacy Policy
-              </motion.a>
-              <motion.a
-                href="/terms"
-                className="text-gray-400 hover:text-purple-400 transition-colors text-sm"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                Terms of Service
-              </motion.a>
-            </div>
           </div>
         </div>
       </motion.footer>
@@ -912,8 +966,8 @@ const services = [
 ];
 
 const skills = [
-  "JavaScript", "TypeScript", "React", "Node.js", "Python", 
-  "SQL", "NoSQL", "AWS", "Docker", "CI/CD", "Agile Methodology"
+  "JavaScript", "TypeScript", "Angular","React", "Node.js", "Nest.js", "Python", "Flutter",
+  "SQL", "NoSQL", "AWS", "GCP", "Docker", "CI/CD", "Agile Methodology"
 ];
 
 const benefits = [
