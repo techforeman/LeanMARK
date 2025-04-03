@@ -5,6 +5,304 @@ import { ActionFunctionArgs, json } from "@remix-run/node";
 import { useActionData, Form, useNavigation } from "@remix-run/react";
 import { Resend } from "resend";
 
+// Add translations
+const translations = {
+  en: {
+    nav: {
+      services: "Services",
+      about: "About",
+      contact: "Contact"
+    },
+    hero: {
+      title: "Transforming Ideas",
+      subtitle: "Into Digital Reality",
+      description: "Professional programming services, process optimization, and digitalization solutions.",
+      getStarted: "Get Started",
+      badges: {
+        customSolutions: "Custom Solutions",
+        support: "24/7 Support",
+        fastDelivery: "Fast Delivery"
+      }
+    },
+    services: {
+      title: "Our Services",
+      description: "We provide comprehensive solutions to optimize your business processes and digital presence.",
+      items: {
+        customSoftware: {
+          title: "Custom Software Development",
+          description: "Tailored software solutions designed to meet your specific business needs and challenges.",
+          features: [
+            "Custom web applications",
+            "Enterprise software",
+            "API development",
+            "Legacy system modernization"
+          ]
+        },
+        ecommerce: {
+          title: "E-commerce Solutions",
+          description: "Set up and optimize your online store with popular e-commerce platforms.",
+          features: [
+            "PrestaShop configuration",
+            "WordPress setup",
+            "Shopify customization",
+            "Payment integration"
+          ]
+        },
+        webMobile: {
+          title: "Web & Mobile Applications",
+          description: "Responsive and user-friendly applications that work seamlessly across all devices.",
+          features: [
+            "Responsive web apps",
+            "Native mobile apps",
+            "Cross-platform solutions",
+            "Progressive web apps"
+          ]
+        },
+        ai: {
+          title: "AI & Machine Learning Solutions",
+          description: "Leverage cutting-edge AI technologies to enhance your business operations and decision-making.",
+          features: [
+            "RAG (Retrieval Augmented Generation)",
+            "AI Agents Development",
+            "LLM Integration",
+            "Custom AI Solutions"
+          ]
+        },
+        automation: {
+          title: "Automation Solutions",
+          description: "Reduce manual work and errors by automating repetitive tasks and workflows.",
+          features: [
+            "Task automation",
+            "Integration solutions",
+            "Bot development",
+            "Workflow optimization"
+          ]
+        },
+        digital: {
+          title: "Digital Transformation",
+          description: "Guide your business through the digital landscape with strategic technology implementation.",
+          features: [
+            "Digital strategy",
+            "Cloud migration",
+            "Security implementation",
+            "Digital consulting"
+          ]
+        },
+        devops: {
+          title: "DevOps Support",
+          description: "Comprehensive DevOps services to streamline your development and deployment processes.",
+          features: [
+            "CI/CD pipeline setup",
+            "Container orchestration",
+            "Infrastructure as Code",
+            "Monitoring & logging"
+          ]
+        },
+        domain: {
+          title: "Domain & Email Services",
+          description: "Professional domain and email configuration services for your business.",
+          features: [
+            "Domain registration",
+            "DNS configuration",
+            "Email server setup",
+            "SSL certificate management"
+          ]
+        },
+        process: {
+          title: "Process Optimization",
+          description: "Streamline your operations and improve efficiency through careful analysis and implementation.",
+          features: [
+            "Workflow automation",
+            "Process analysis",
+            "Performance optimization",
+            "Resource allocation"
+          ]
+        }
+      }
+    },
+    about: {
+      title: "About LeanMARK",
+      description: "LeanMARK is a one-person company dedicated to providing high-quality programming services, process optimization, and digitalization solutions. With a focus on efficiency and innovation, we help businesses streamline their operations and embrace digital transformation.",
+      whyChooseUs: "Why Choose Us?",
+      additionalDescription: "Our approach combines technical expertise with a deep understanding of business processes, allowing us to deliver tailored solutions that address your specific needs and challenges."
+    },
+    contact: {
+      title: "Get In Touch",
+      description: "Have a project in mind or want to learn more about our services? Send us a message and we'll get back to you as soon as possible.",
+      name: "Name",
+      email: "Email",
+      message: "Message",
+      sendMessage: "Send Message",
+      sending: "Sending...",
+      success: "Thank you for your message! We'll get back to you soon.",
+      error: "Failed to send message. Please try again later.",
+      validEmail: "✓ Valid email address"
+    },
+    footer: {
+      rights: "All rights reserved."
+    },
+    skills: [
+      "JavaScript", "TypeScript", "Angular", "React", "Node.js", "Nest.js", "Python", "Flutter",
+      "SQL", "NoSQL", "AWS", "GCP", "Docker", "CI/CD", "Agile Methodology"
+    ],
+    benefits: [
+      "Personalized approach tailored to your specific needs",
+      "Efficient solutions that save time and resources",
+      "Clear communication throughout the entire process",
+      "Continuous support and maintenance",
+      "Scalable solutions that grow with your business",
+      "Commitment to quality and excellence"
+    ]
+  },
+  pl: {
+    nav: {
+      services: "Usługi",
+      about: "O nas",
+      contact: "Kontakt"
+    },
+    hero: {
+      title: "Przekształcamy Pomysły",
+      subtitle: "W Cyfrową Rzeczywistość",
+      description: "Profesjonalne usługi programistyczne, optymalizacja procesów i rozwiązania cyfrowe.",
+      getStarted: "Rozpocznij",
+      badges: {
+        customSolutions: "Rozwiązania na Zamówienie",
+        support: "Wsparcie 24/7",
+        fastDelivery: "Szybka Realizacja"
+      }
+    },
+    services: {
+      title: "Nasze Usługi",
+      description: "Oferujemy kompleksowe rozwiązania do optymalizacji procesów biznesowych i obecności cyfrowej.",
+      items: {
+        customSoftware: {
+          title: "Rozwój Oprogramowania na Zamówienie",
+          description: "Dostosowane rozwiązania programistyczne zaprojektowane pod Twoje specyficzne potrzeby biznesowe.",
+          features: [
+            "Aplikacje webowe na zamówienie",
+            "Oprogramowanie dla przedsiębiorstw",
+            "Rozwój API",
+            "Modernizacja systemów legacy"
+          ]
+        },
+        ecommerce: {
+          title: "Rozwiązania E-commerce",
+          description: "Konfiguracja i optymalizacja Twojego sklepu internetowego na popularnych platformach e-commerce.",
+          features: [
+            "Konfiguracja PrestaShop",
+            "Konfiguracja WordPress",
+            "Dostosowanie Shopify",
+            "Integracja płatności"
+          ]
+        },
+        webMobile: {
+          title: "Aplikacje Webowe i Mobilne",
+          description: "Responsywne i przyjazne dla użytkownika aplikacje działające płynnie na wszystkich urządzeniach.",
+          features: [
+            "Responsywne aplikacje webowe",
+            "Natywne aplikacje mobilne",
+            "Rozwiązania cross-platform",
+            "Progresywne aplikacje webowe"
+          ]
+        },
+        ai: {
+          title: "Rozwiązania AI i Uczenia Maszynowego",
+          description: "Wykorzystaj najnowocześniejsze technologie AI do usprawnienia operacji biznesowych i podejmowania decyzji.",
+          features: [
+            "RAG (Retrieval Augmented Generation)",
+            "Rozwój Agentów AI",
+            "Integracja LLM",
+            "Rozwiązania AI na zamówienie"
+          ]
+        },
+        automation: {
+          title: "Rozwiązania Automatyzacyjne",
+          description: "Zmniejsz pracę ręczną i błędy poprzez automatyzację powtarzających się zadań i procesów.",
+          features: [
+            "Automatyzacja zadań",
+            "Rozwiązania integracyjne",
+            "Rozwój botów",
+            "Optymalizacja procesów"
+          ]
+        },
+        digital: {
+          title: "Transformacja Cyfrowa",
+          description: "Przewodnik po krajobrazie cyfrowym z strategiczną implementacją technologii.",
+          features: [
+            "Strategia cyfrowa",
+            "Migracja do chmury",
+            "Implementacja bezpieczeństwa",
+            "Doradztwo cyfrowe"
+          ]
+        },
+        devops: {
+          title: "Wsparcie DevOps",
+          description: "Kompleksowe usługi DevOps do usprawnienia procesów rozwoju i wdrażania.",
+          features: [
+            "Konfiguracja CI/CD",
+            "Orkiestracja kontenerów",
+            "Infrastructure as Code",
+            "Monitorowanie i logowanie"
+          ]
+        },
+        domain: {
+          title: "Usługi Domenowe i Emailowe",
+          description: "Profesjonalne usługi konfiguracji domen i poczty elektronicznej dla Twojego biznesu.",
+          features: [
+            "Rejestracja domen",
+            "Konfiguracja DNS",
+            "Konfiguracja serwera pocztowego",
+            "Zarządzanie certyfikatami SSL"
+          ]
+        },
+        process: {
+          title: "Optymalizacja Procesów",
+          description: "Usprawnij operacje i popraw efektywność poprzez staranną analizę i implementację.",
+          features: [
+            "Automatyzacja procesów",
+            "Analiza procesów",
+            "Optymalizacja wydajności",
+            "Alokacja zasobów"
+          ]
+        }
+      }
+    },
+    about: {
+      title: "O LeanMARK",
+      description: "LeanMARK to firma jednoosobowa zajmująca się świadczeniem wysokiej jakości usług programistycznych, optymalizacją procesów i rozwiązaniami cyfrowymi. Skupiając się na efektywności i innowacyjności, pomagamy firmom usprawnić ich operacje i przyjąć transformację cyfrową.",
+      whyChooseUs: "Dlaczego My?",
+      additionalDescription: "Nasze podejście łączy wiedzę techniczną z głębokim zrozumieniem procesów biznesowych, pozwalając nam dostarczać rozwiązania dostosowane do Twoich specyficznych potrzeb i wyzwań."
+    },
+    contact: {
+      title: "Skontaktuj się",
+      description: "Masz projekt na myśli lub chcesz dowiedzieć się więcej o naszych usługach? Wyślij nam wiadomość, a odpowiemy najszybciej jak to możliwe.",
+      name: "Imię",
+      email: "Email",
+      message: "Wiadomość",
+      sendMessage: "Wyślij Wiadomość",
+      sending: "Wysyłanie...",
+      success: "Dziękujemy za wiadomość! Odpowiemy najszybciej jak to możliwe.",
+      error: "Nie udało się wysłać wiadomości. Spróbuj ponownie później.",
+      validEmail: "✓ Poprawny adres email"
+    },
+    footer: {
+      rights: "Wszelkie prawa zastrzeżone."
+    },
+    skills: [
+      "JavaScript", "TypeScript", "Angular", "React", "Node.js", "Nest.js", "Python", "Flutter",
+      "SQL", "NoSQL", "AWS", "GCP", "Docker", "CI/CD", "Metodologia Agile"
+    ],
+    benefits: [
+      "Spersonalizowane podejście dostosowane do Twoich specyficznych potrzeb",
+      "Efektywne rozwiązania oszczędzające czas i zasoby",
+      "Jasna komunikacja w całym procesie",
+      "Ciągłe wsparcie i utrzymanie",
+      "Skalowalne rozwiązania rosnące wraz z Twoim biznesem",
+      "Zaangażowanie w jakość i doskonałość"
+    ]
+  }
+};
+
 export const meta = () => {
   return [
     { title: "LeanMARK - Professional Programming Services" },
@@ -18,10 +316,19 @@ export async function action({ request }: ActionFunctionArgs) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const message = formData.get("message") as string;
+  const language = formData.get("language") as string;
+
+  // Email validation regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!name || !email || !message) {
     return json({ success: false, error: "All fields are required" });
   }
+
+  if (!emailRegex.test(email)) {
+    return json({ success: false, error: "Please enter a valid email address" });
+  }
+
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
@@ -47,7 +354,16 @@ export default function Index() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   
+  const [language, setLanguage] = useState<'en' | 'pl'>('en');
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  
   const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const [formErrors, setFormErrors] = useState({
     name: "",
     email: "",
     message: "",
@@ -57,6 +373,19 @@ export default function Index() {
   const [activeSection, setActiveSection] = useState("hero");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Language options with flags
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇬🇧' },
+    { code: 'pl', name: 'Polski', flag: '🇵🇱' }
+  ];
+
+  const handleLanguageChange = (langCode: 'en' | 'pl') => {
+    setLanguage(langCode);
+    setIsLanguageDropdownOpen(false);
+  };
+
+  // Get current translations
+  const t = translations[language];
 
   // Smooth scroll function
   const scrollToSection = (sectionId: string) => {
@@ -103,6 +432,70 @@ export default function Index() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
+    
+    // Clear error when user starts typing
+    setFormErrors((prev) => ({ ...prev, [name]: "" }));
+
+    // Real-time email validation
+    if (name === 'email') {
+      if (!value.trim()) {
+        setFormErrors(prev => ({ ...prev, email: "Email is required" }));
+      } else if (!validateEmail(value)) {
+        setFormErrors(prev => ({ ...prev, email: "Please enter a valid email address" }));
+      }
+    }
+  };
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isFormValid = () => {
+    return (
+      formState.name.trim() !== "" &&
+      formState.email.trim() !== "" &&
+      validateEmail(formState.email) &&
+      formState.message.trim() !== ""
+    );
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // Reset errors
+    setFormErrors({
+      name: "",
+      email: "",
+      message: "",
+    });
+
+    let hasErrors = false;
+
+    // Validate name
+    if (!formState.name.trim()) {
+      setFormErrors(prev => ({ ...prev, name: "Name is required" }));
+      hasErrors = true;
+    }
+
+    // Validate email
+    if (!formState.email.trim()) {
+      setFormErrors(prev => ({ ...prev, email: "Email is required" }));
+      hasErrors = true;
+    } else if (!validateEmail(formState.email)) {
+      setFormErrors(prev => ({ ...prev, email: "Please enter a valid email address" }));
+      hasErrors = true;
+    }
+
+    // Validate message
+    if (!formState.message.trim()) {
+      setFormErrors(prev => ({ ...prev, message: "Message is required" }));
+      hasErrors = true;
+    }
+
+    if (!hasErrors) {
+      e.currentTarget.submit();
+    }
   };
 
   // Reset form after successful submission
@@ -249,8 +642,6 @@ export default function Index() {
     setIsMobileMenuOpen((prev) => !prev);
   };
 
- 
-
   return (
     <div className="bg-gray-900 text-white min-h-screen">
       {/* Navbar */}
@@ -288,11 +679,52 @@ export default function Index() {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {section.charAt(0).toUpperCase() + section.slice(1)}
+                {t.nav[section as keyof typeof t.nav]}
               </motion.a>
             ))}
-        
           </div>
+          
+          {/* Language Selector */}
+          <div className="relative">
+            <button
+              onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+              className="flex items-center space-x-2 text-white hover:text-purple-400 transition-colors"
+            >
+              <span className="text-xl">{languages.find(l => l.code === language)?.flag}</span>
+              <span className="hidden md:inline">{languages.find(l => l.code === language)?.name}</span>
+              <svg
+                className={`w-4 h-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            {isLanguageDropdownOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg border border-gray-700 py-2 z-50"
+              >
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code as 'en' | 'pl')}
+                    className={`w-full px-4 py-2 text-left flex items-center space-x-2 hover:bg-gray-700 transition-colors ${
+                      language === lang.code ? 'text-purple-400' : 'text-white'
+                    }`}
+                  >
+                    <span className="text-xl">{lang.flag}</span>
+                    <span>{lang.name}</span>
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </div>
+
           <div className="md:hidden">
             <button className="text-white" onClick={toggleMobileMenu}>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -343,14 +775,14 @@ export default function Index() {
               <motion.div variants={heroTextVariants}>
                 <h1 className="text-5xl md:text-7xl font-bold mb-6">
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
-                    Transforming Ideas
+                    {t.hero.title}
                   </span>
                   <br />
-                  Into Digital Reality
+                  {t.hero.subtitle}
                 </h1>
                 
                 <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl">
-                  Professional programming services, process optimization, and digitalization solutions.
+                  {t.hero.description}
                 </p>
 
                 <div className="flex flex-wrap gap-4 mb-8">
@@ -359,21 +791,21 @@ export default function Index() {
                     whileHover={{ scale: 1.05 }}
                   >
                     <span className="text-purple-400">✓</span>
-                    <span>Custom Solutions</span>
+                    <span>{t.hero.badges.customSolutions}</span>
                   </motion.div>
                   <motion.div 
                     className="flex items-center gap-2 bg-gray-800/50 px-4 py-2 rounded-full border border-gray-700"
                     whileHover={{ scale: 1.05 }}
                   >
                     <span className="text-purple-400">✓</span>
-                    <span>24/7 Support</span>
+                    <span>{t.hero.badges.support}</span>
                   </motion.div>
                   <motion.div 
                     className="flex items-center gap-2 bg-gray-800/50 px-4 py-2 rounded-full border border-gray-700"
                     whileHover={{ scale: 1.05 }}
                   >
                     <span className="text-purple-400">✓</span>
-                    <span>Fast Delivery</span>
+                    <span>{t.hero.badges.fastDelivery}</span>
                   </motion.div>
                 </div>
                 
@@ -384,7 +816,7 @@ export default function Index() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <span className="relative z-10">Get Started</span>
+                    <span className="relative z-10">{t.hero.getStarted}</span>
                     <svg className="w-5 h-5 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -533,9 +965,9 @@ export default function Index() {
           animate={servicesInView ? "visible" : "hidden"}
         >
           <motion.div variants={itemVariants} className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Our Services</h2>
+            <h2 className="text-4xl font-bold mb-4">{t.services.title}</h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              We provide comprehensive solutions to optimize your business processes and digital presence.
+              {t.services.description}
             </p>
           </motion.div>
           
@@ -547,7 +979,7 @@ export default function Index() {
                 whileHover="hover"
                 variants={hoverCardVariants}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-blue-600/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
                   <motion.div 
                     className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center mb-4"
@@ -555,16 +987,20 @@ export default function Index() {
                   >
                     <span className="text-xl">{service.icon}</span>
                   </motion.div>
-                  <h3 className="text-lg font-bold mb-2">{service.title}</h3>
-                  <p className="text-gray-400 text-sm mb-3">{service.description}</p>
+                  <h3 className="text-lg font-bold mb-2 text-white group-hover:text-purple-400 transition-colors">
+                    {t.services.items[service.key as keyof typeof t.services.items].title}
+                  </h3>
+                  <p className="text-white text-sm mb-3 group-hover:text-gray-100 transition-colors">
+                    {t.services.items[service.key as keyof typeof t.services.items].description}
+                  </p>
                   <ul className="space-y-1.5">
-                    {service.features?.map((feature, i) => (
+                    {t.services.items[service.key as keyof typeof t.services.items].features.map((feature, i) => (
                       <motion.li 
                         key={i}
-                        className="flex items-center gap-2 text-sm text-gray-300"
+                        className="flex items-center gap-2 text-sm text-white group-hover:text-gray-100 transition-colors"
                         whileHover={{ x: 5 }}
                       >
-                        <span className="text-purple-400">•</span>
+                        <span className="text-purple-400 group-hover:text-purple-300">•</span>
                         {feature}
                       </motion.li>
                     ))}
@@ -589,15 +1025,12 @@ export default function Index() {
         >
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <motion.div variants={itemVariants} className="lg:w-1/2">
-              <h2 className="text-4xl font-bold mb-6">About LeanMARK</h2>
+              <h2 className="text-4xl font-bold mb-6">{t.about.title}</h2>
               <p className="text-gray-300 mb-6">
-                LeanMARK is a one-person company dedicated to providing high-quality programming services, 
-                process optimization, and digitalization solutions. With a focus on efficiency and innovation, 
-                we help businesses streamline their operations and embrace digital transformation.
+                {t.about.description}
               </p>
               <p className="text-gray-300 mb-6">
-                Our approach combines technical expertise with a deep understanding of business processes, 
-                allowing us to deliver tailored solutions that address your specific needs and challenges.
+                {t.about.additionalDescription}
               </p>
               <div className="flex flex-wrap gap-4">
                 {skills.map((skill, index) => (
@@ -622,9 +1055,9 @@ export default function Index() {
               >
                 <div className="absolute -inset-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl opacity-30 blur-xl"></div>
                 <div className="relative bg-gray-800 p-8 rounded-xl border border-gray-700 hover:border-purple-500/50 transition-all hover:shadow-purple-500/10 hover:shadow-lg">
-                  <h3 className="text-2xl font-bold mb-4">Why Choose Us?</h3>
+                  <h3 className="text-2xl font-bold mb-4">{t.about.whyChooseUs}</h3>
                   <ul className="space-y-4">
-                    {benefits.map((benefit, index) => (
+                    {t.benefits.map((benefit: string, index: number) => (
                       <motion.li 
                         key={index} 
                         className="flex items-start group"
@@ -654,16 +1087,15 @@ export default function Index() {
           animate={contactInView ? "visible" : "hidden"}
         >
           <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
+            <h2 className="text-4xl font-bold mb-4">{t.contact.title}</h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Have a project in mind or want to learn more about our services? 
-              Send us a message and we&apos;ll get back to you as soon as possible.
+              {t.contact.description}
             </p>
           </motion.div>
           
           <div className="max-w-3xl mx-auto">
             <motion.div variants={itemVariants}>
-              <Form ref={formRef} method="post" className="space-y-6">
+              <Form ref={formRef} method="post" className="space-y-6" onSubmit={handleSubmit}>
                 {actionData?.success && (
                   <motion.div 
                     className="bg-green-500/20 border border-green-500 text-green-300 px-4 py-3 rounded"
@@ -671,7 +1103,7 @@ export default function Index() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    Thank you for your message! We&apos;ll get back to you soon.
+                    {t.contact.success}
                   </motion.div>
                 )}
                 
@@ -682,14 +1114,14 @@ export default function Index() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    {actionData.error as string}
+                    {t.contact.error}
                   </motion.div>
                 )}
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                      Name
+                      {t.contact.name}
                     </label>
                     <input
                       type="text"
@@ -697,14 +1129,19 @@ export default function Index() {
                       name="name"
                       value={formState.name}
                       onChange={handleInputChange}
-                      className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all hover:border-purple-500/50"
+                      className={`w-full bg-gray-800 border ${
+                        formErrors.name ? 'border-red-500' : 'border-gray-700'
+                      } rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all hover:border-purple-500/50`}
                       required
                     />
+                    {formErrors.name && (
+                      <p className="mt-1 text-sm text-red-500">{formErrors.name}</p>
+                    )}
                   </div>
                   
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                      Email
+                      {t.contact.email}
                     </label>
                     <input
                       type="email"
@@ -712,15 +1149,23 @@ export default function Index() {
                       name="email"
                       value={formState.email}
                       onChange={handleInputChange}
-                      className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all hover:border-purple-500/50"
+                      className={`w-full bg-gray-800 border ${
+                        formErrors.email ? 'border-red-500' : 'border-gray-700'
+                      } rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all hover:border-purple-500/50`}
                       required
                     />
+                    {formErrors.email && (
+                      <p className="mt-1 text-sm text-red-500">{formErrors.email}</p>
+                    )}
+                    {formState.email && !formErrors.email && (
+                      <p className="mt-1 text-sm text-green-500">{t.contact.validEmail}</p>
+                    )}
                   </div>
                 </div>
                 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                    Message
+                    {t.contact.message}
                   </label>
                   <textarea
                     id="message"
@@ -728,23 +1173,34 @@ export default function Index() {
                     value={formState.message}
                     onChange={handleInputChange}
                     rows={6}
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all hover:border-purple-500/50"
+                    className={`w-full bg-gray-800 border ${
+                      formErrors.message ? 'border-red-500' : 'border-gray-700'
+                    } rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all hover:border-purple-500/50`}
                     required
                   ></textarea>
+                  {formErrors.message && (
+                    <p className="mt-1 text-sm text-red-500">{formErrors.message}</p>
+                  )}
                 </div>
                 
                 <div>
                   <motion.button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-all shadow-lg hover:shadow-purple-500/25 disabled:opacity-70 relative overflow-hidden group"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    disabled={isSubmitting || !isFormValid()}
+                    className={`w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium py-3 px-4 rounded-lg transition-all shadow-lg relative overflow-hidden group ${
+                      isFormValid() 
+                        ? 'hover:from-purple-700 hover:to-blue-700 hover:shadow-purple-500/25' 
+                        : 'opacity-50 cursor-not-allowed'
+                    }`}
+                    whileHover={isFormValid() ? { scale: 1.02 } : {}}
+                    whileTap={isFormValid() ? { scale: 0.98 } : {}}
                   >
                     <span className="relative z-10">
-                      {isSubmitting ? "Sending..." : "Send Message"}
+                      {isSubmitting ? t.contact.sending : t.contact.sendMessage}
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    {isFormValid() && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    )}
                   </motion.button>
                 </div>
               </Form>
@@ -819,7 +1275,7 @@ export default function Index() {
           
           <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col justify-center items-center">
             <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} LeanMARK. All rights reserved.
+              © {new Date().getFullYear()} LeanMARK. {t.footer.rights}
             </p>
           </div>
         </div>
@@ -831,128 +1287,44 @@ export default function Index() {
 // Enhanced services data with new services
 const services = [
   {
-    icon: "💻",
-    title: "Custom Software Development",
-    description: "Tailored software solutions designed to meet your specific business needs and challenges.",
-    features: [
-      "Custom web applications",
-      "Enterprise software",
-      "API development",
-      "Legacy system modernization"
-    ]
-  },
-    {
-    icon: "🛍️",
-    title: "E-commerce Solutions",
-    description: "Set up and optimize your online store with popular e-commerce platforms.",
-    features: [
-      "PrestaShop configuration",
-      "WordPress setup",
-      "Shopify customization",
-      "Payment integration"
-    ]
+    key: "customSoftware",
+    icon: "💻"
   },
   {
-    icon: "📱",
-    title: "Web & Mobile Applications",
-    description: "Responsive and user-friendly applications that work seamlessly across all devices.",
-    features: [
-      "Responsive web apps",
-      "Native mobile apps",
-      "Cross-platform solutions",
-      "Progressive web apps"
-    ]
+    key: "ecommerce",
+    icon: "🛍️"
   },
   {
-    icon: "🧠",
-    title: "AI & Machine Learning Solutions",
-    description: "Leverage cutting-edge AI technologies to enhance your business operations and decision-making.",
-    features: [
-      "RAG (Retrieval Augmented Generation)",
-      "AI Agents Development",
-      "LLM Integration",
-      "Custom AI Solutions"
-    ]
+    key: "webMobile",
+    icon: "📱"
   },
   {
-    icon: "🤖",
-    title: "Automation Solutions",
-    description: "Reduce manual work and errors by automating repetitive tasks and workflows.",
-    features: [
-      "Task automation",
-      "Integration solutions",
-      "Bot development",
-      "Workflow optimization"
-    ]
-  },
-  // {
-  //   icon: "📊",
-  //   title: "Data Analysis & Visualization",
-  //   description: "Transform your data into actionable insights with powerful analytics and visualization tools.",
-  //   features: [
-  //     "Data analysis",
-  //     "Business intelligence",
-  //     "Custom dashboards",
-  //     "Report generation"
-  //   ]
-  // },
-  {
-    icon: "🔒",
-    title: "Digital Transformation",
-    description: "Guide your business through the digital landscape with strategic technology implementation.",
-    features: [
-      "Digital strategy",
-      "Cloud migration",
-      "Security implementation",
-      "Digital consulting"
-    ]
-  },
- 
-  {
-    icon: "⚙️",
-    title: "DevOps Support",
-    description: "Comprehensive DevOps services to streamline your development and deployment processes.",
-    features: [
-      "CI/CD pipeline setup",
-      "Container orchestration",
-      "Infrastructure as Code",
-      "Monitoring & logging"
-    ]
+    key: "ai",
+    icon: "🧠"
   },
   {
-    icon: "🌐",
-    title: "Domain & Email Services",
-    description: "Professional domain and email configuration services for your business.",
-    features: [
-      "Domain registration",
-      "DNS configuration",
-      "Email server setup",
-      "SSL certificate management"
-    ]
+    key: "automation",
+    icon: "🤖"
   },
-   {
-    icon: "🔄",
-    title: "Process Optimization",
-    description: "Streamline your operations and improve efficiency through careful analysis and implementation.",
-    features: [
-      "Workflow automation",
-      "Process analysis",
-      "Performance optimization",
-      "Resource allocation"
-    ]
+  {
+    key: "digital",
+    icon: "🔒"
+  },
+  {
+    key: "devops",
+    icon: "⚙️"
+  },
+  {
+    key: "domain",
+    icon: "🌐"
+  },
+  {
+    key: "process",
+    icon: "🔄"
   }
 ];
 
 const skills = [
-  "JavaScript", "TypeScript", "Angular","React", "Node.js", "Nest.js", "Python", "Flutter",
+  "JavaScript", "TypeScript", "Angular", "React", "Node.js", "Nest.js", "Python", "Flutter",
   "SQL", "NoSQL", "AWS", "GCP", "Docker", "CI/CD", "Agile Methodology"
-];
-
-const benefits = [
-  "Personalized approach tailored to your specific needs",
-  "Efficient solutions that save time and resources",
-  "Clear communication throughout the entire process",
-  "Continuous support and maintenance",
-  "Scalable solutions that grow with your business",
-  "Commitment to quality and excellence"
 ];
